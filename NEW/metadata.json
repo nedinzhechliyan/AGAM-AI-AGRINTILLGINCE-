@@ -1,0 +1,6 @@
+{
+  "name": "AGAM - Voice-First Farming Intelligence",
+  "description": "Voice-first agricultural advisory platform featuring Land & Weather Intelligence, Crop Doctor AI, PM-Kisan Scheme verification, Farmland Polygon mapping, and the interactive mascot companion.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

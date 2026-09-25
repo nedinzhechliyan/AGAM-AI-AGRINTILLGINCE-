@@ -1,0 +1,72 @@
+[
+  {
+    "id": "PMK_001",
+    "title": "PM-KISAN Financial Benefit",
+    "source_url": "https://pmkisan.gov.in/Documents/RevisedPM-KISANOperationalGuidelines(English).pdf",
+    "action_tag": "REDIRECT_KISAN_PORTAL",
+    "text_content": "Pradhan Mantri Kisan Samman Nidhi (PM-KISAN) is a Central Sector Scheme providing direct income support of Rs. 6,000 per year to landholding farmer families across the country. The financial benefit is transferred directly into bank accounts in three equal installments of Rs. 2,000 every four months."
+  },
+  {
+    "id": "PMK_002",
+    "title": "Definition of Eligible Family under PM-KISAN",
+    "source_url": "https://pmkisan.gov.in/Documents/RevisedPM-KISANOperationalGuidelines(English).pdf",
+    "action_tag": "REDIRECT_KISAN_PORTAL",
+    "text_content": "Definition of Eligible Family under PM-KISAN: A landholding farmer family comprises a husband, wife, and minor children who own cultivable land as per the official revenue records of the concerned State or Union Territory."
+  },
+  {
+    "id": "PMK_003",
+    "title": "Mandatory Verification Requirements",
+    "source_url": "https://pmkisan.gov.in/Documents/RevisedPM-KISANOperationalGuidelines(English).pdf",
+    "action_tag": "REDIRECT_KISAN_PORTAL",
+    "text_content": "PM-KISAN Mandatory Verification Requirements: Beneficiaries must possess cultivable landholding, a valid Aadhaar number linked to their bank account, completed eKYC verification, and verified land records on the PM-Kisan portal."
+  },
+  {
+    "id": "PMK_004",
+    "title": "PM-KISAN Exclusion Criteria",
+    "source_url": "https://pmkisan.gov.in/Documents/RevisedPM-KISANOperationalGuidelines(English).pdf",
+    "action_tag": "REDIRECT_KISAN_PORTAL",
+    "text_content": "PM-KISAN Exclusion Criteria: Institutional landholders, former/present holders of constitutional posts, current/former Ministers, MPs, MLAs, Chairpersons of District Panchayats, serving or retired government employees (excluding Group D/Multi-Tasking Staff), pensioners with monthly pension >= Rs. 10,000, persons who paid Income Tax in the last assessment year, and registered professionals (Doctors, Engineers, Lawyers, Chartered Accountants)."
+  },
+  {
+    "id": "PMK_005",
+    "title": "PM-KISAN Registration Process",
+    "source_url": "https://pmkisan.gov.in/Documents/RevisedPM-KISANOperationalGuidelines(English).pdf",
+    "action_tag": "REDIRECT_KISAN_PORTAL",
+    "text_content": "PM-KISAN Registration Process: Eligible farmers can apply online via the Farmers Corner on https://pmkisan.gov.in or through Common Service Centers (CSC). Verification is processed by State Nodal Officers before installment release."
+  },
+  {
+    "id": "PMK_006",
+    "title": "PM-KISAN eKYC Completion",
+    "source_url": "https://pmkisan.gov.in/Documents/RevisedPM-KISANOperationalGuidelines(English).pdf",
+    "action_tag": "REDIRECT_KISAN_PORTAL",
+    "text_content": "PM-KISAN eKYC Completion: eKYC is mandatory for all registered farmers to receive upcoming installments. Farmers can complete OTP-based eKYC on https://pmkisan.gov.in or biometric eKYC at nearby CSC centers."
+  },
+  {
+    "id": "SCH_001",
+    "title": "PM Kisan Maandhan Yojana",
+    "source_url": "https://pmkisan.gov.in",
+    "action_tag": "REDIRECT_KISAN_PORTAL",
+    "text_content": "PM Kisan Maandhan Yojana (Pension Scheme): Voluntarily available for small and marginal farmers aged 18 to 40. Provides a guaranteed monthly pension of Rs. 3,000 after attaining 60 years of age."
+  },
+  {
+    "id": "SCH_002",
+    "title": "Kisan Credit Card (KCC) Scheme",
+    "source_url": "https://pmkisan.gov.in",
+    "action_tag": "REDIRECT_KISAN_PORTAL",
+    "text_content": "Kisan Credit Card (KCC) Scheme: PM-Kisan beneficiaries can avail concessional crop loans up to Rs. 3 Lakhs at a low interest rate of 4% with timely repayment benefits."
+  },
+  {
+    "id": "NAV_DISEASE_SCANNER",
+    "title": "Crop Disease Scanner Feature",
+    "source_url": "in_app_feature",
+    "action_tag": "NAVIGATE_DISEASE_SCANNER",
+    "text_content": "If crop leaves show spots, yellowing, fungal infections, pest damage, or rot, open the camera disease scanner to capture a photo for instant diagnosis and treatment remedies."
+  },
+  {
+    "id": "NAV_LAND_SURVEY",
+    "title": "Land Survey & Weather Advisory Feature",
+    "source_url": "in_app_feature",
+    "action_tag": "NAVIGATE_LAND_SURVEY",
+    "text_content": "To check live satellite soil moisture, NASA weather alerts, safe pesticide spraying wind speed advisories, or calculated drip irrigation liters per acre, view the land survey advisory map."
+  }
+]

@@ -1,0 +1,33 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Global helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isFarmerOwner(farmerId) {
+      return isSignedIn() && (request.auth.uid == farmerId || request.auth.token.phone_number == farmerId);
+    }
+
+    // Farmer Profile Document
+    match /farmers/{farmerId} {
+      allow read, write: if isSignedIn();
+
+      // Advisory history subcollection
+      match /advisories/{advisoryId} {
+        allow read, write: if isSignedIn();
+      }
+
+      // Disease scans subcollection
+      match /scans/{scanId} {
+        allow read, write: if isSignedIn();
+      }
+    }
+
+    // Test connection document
+    match /test/{docId} {
+      allow read, write: if true;
+    }
+  }
+}

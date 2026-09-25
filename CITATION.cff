@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use Sound Kit, please cite it as below."
+type: software
+title: "Sound Kit"
+abstract: "Original UI interaction sounds for apps and prototypes, with a local Python DSP + ffmpeg generator."
+authors:
+  - name: "THISUX Private Limited"
+    website: "https://github.com/thisuxhq"
+license: MIT
+repository-code: "https://github.com/thisuxhq/soundkit"
+url: "https://github.com/thisuxhq/soundkit"
+date-released: "2026-07-19"
+version: "1.0.0"
+keywords:
+  - ui-sounds
+  - sound-effects
+  - audio
+  - sound-kit
+  - interaction-design

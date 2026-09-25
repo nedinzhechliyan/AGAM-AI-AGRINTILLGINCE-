@@ -1,0 +1,37 @@
+name: Feature request
+description: Suggest a new sound role, variant, or doc improvement
+labels: ["enhancement"]
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Request type
+      options:
+        - New interaction sound / role
+        - Additional variant of an existing role
+        - Volume or length tweak
+        - Generator improvement
+        - Documentation / examples
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or use case
+      description: What are you building, and what is missing today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: Desired path name, category, duration, or character of the sound.
+      placeholder: e.g. buttons-and-navigation/toggle-on.m4a — short soft tick…
+    validations:
+      required: true
+  - type: textarea
+    id: extras
+    attributes:
+      label: Additional context
+      description: References, mockups, or comparable product sounds (describe only; do not attach copyrighted samples you do not own).

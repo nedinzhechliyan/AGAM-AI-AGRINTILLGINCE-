@@ -1,0 +1,165 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    touch-action: pan-y;
+  }
+}
+
+.font-mono-code {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Idle organic breathing animation */
+@keyframes mascot-idle {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(0.4deg);
+  }
+}
+
+@keyframes turban-sway {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(-2.5deg) translateY(-2px);
+  }
+}
+
+@keyframes plough-sway {
+  0%, 100% {
+    transform: rotate(0deg) translateY(0px);
+  }
+  50% {
+    transform: rotate(-1.2deg) translateY(-2px);
+  }
+}
+
+@keyframes speech-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.025) translateY(-4px);
+  }
+}
+
+@keyframes soundwave {
+  0%, 100% { height: 6px; }
+  50% { height: 26px; }
+}
+
+/* EMOTION SPECIFIC KEYFRAMES */
+@keyframes happy-bounce {
+  0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+  25% { transform: translateY(-10px) rotate(-1.5deg) scale(1.02); }
+  75% { transform: translateY(-4px) rotate(1.5deg) scale(1.01); }
+}
+
+@keyframes ear-wiggle-left {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-9deg) translateY(-2px); }
+}
+
+@keyframes ear-wiggle-right {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(9deg) translateY(-2px); }
+}
+
+@keyframes blush-pulse {
+  0%, 100% { opacity: 0.85; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.15); }
+}
+
+@keyframes surprise-pop {
+  0% { transform: scale(0.97) translateY(4px); }
+  50% { transform: scale(1.04) translateY(-14px); }
+  100% { transform: scale(1.01) translateY(-6px); }
+}
+
+@keyframes thought-float {
+  0%, 100% { transform: translateY(0) scale(1); opacity: 0.95; }
+  50% { transform: translateY(-7px) scale(1.04); opacity: 1; }
+}
+
+@keyframes gear-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-idle {
+  animation: mascot-idle 4s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+.animate-turban {
+  animation: turban-sway 3.2s ease-in-out infinite;
+  transform-origin: 200px 145px;
+}
+
+.animate-plough {
+  animation: plough-sway 3.8s ease-in-out infinite;
+  transform-origin: 320px 240px;
+}
+
+.animate-speech {
+  animation: speech-pulse 2s ease-in-out infinite;
+}
+
+.animate-happy {
+  animation: happy-bounce 1.6s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+.animate-ear-l {
+  animation: ear-wiggle-left 1.4s ease-in-out infinite;
+  transform-origin: 110px 185px;
+}
+
+.animate-ear-r {
+  animation: ear-wiggle-right 1.4s ease-in-out infinite;
+  transform-origin: 290px 185px;
+}
+
+.animate-blush {
+  animation: blush-pulse 1.8s ease-in-out infinite;
+}
+
+.animate-surprised {
+  animation: surprise-pop 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) infinite;
+  transform-origin: bottom center;
+}
+
+.animate-thought {
+  animation: thought-float 2.5s ease-in-out infinite;
+}
+
+.animate-spin-slow {
+  animation: gear-spin 8s linear infinite;
+}
+
+.animate-soundwave-1 { animation: soundwave 0.8s ease-in-out infinite 0.1s; }
+.animate-soundwave-2 { animation: soundwave 0.8s ease-in-out infinite 0.25s; }
+.animate-soundwave-3 { animation: soundwave 0.8s ease-in-out infinite 0.4s; }
+.animate-soundwave-4 { animation: soundwave 0.8s ease-in-out infinite 0.15s; }
+.animate-soundwave-5 { animation: soundwave 0.8s ease-in-out infinite 0.35s; }
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #090d16;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}

@@ -1,0 +1,47 @@
+name: Bug report
+description: Report a problem with a sound, path, level, or the generator
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report an issue. For security concerns, email **hello@thisux.com** instead (see [SECURITY.md](../../SECURITY.md)).
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Audio asset (level, quality, naming)
+        - Catalog / missing sound role
+        - Generator script
+        - Documentation
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Clear description of the problem.
+      placeholder: e.g. success-1 feels too long for a toast confirmation…
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps / paths
+      description: File paths, commands, or environment details that help reproduce.
+      placeholder: |
+        Path: low-volume-20db/complete-and-success/success-1.m4a
+        Command: python3 scripts/generate_ui_kit.py
+  - type: input
+    id: env
+    attributes:
+      label: Environment (optional)
+      placeholder: "macOS 15, python3 3.12, ffmpeg 7.x"

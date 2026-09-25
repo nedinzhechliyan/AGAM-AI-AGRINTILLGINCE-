@@ -1,0 +1,6 @@
+{
+  "name": "AGAM - AI-Guided Agriculture Management",
+  "description": "Precision agro-advisory rule engine, crop disease scanner, and agricultural data architecture for Tamil Nadu farmers.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
