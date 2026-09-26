@@ -14,6 +14,7 @@ import {
 
 interface CropDoctorProps {
   onSpeak: (text: string) => void;
+  onScanComplete?: (diseaseLabel: string, remedy: string) => void;
 }
 
 interface Specimen {
@@ -64,7 +65,7 @@ const SPECIMENS: Specimen[] = [
   }
 ];
 
-export default function CropDoctor({ onSpeak }: CropDoctorProps) {
+export default function CropDoctor({ onSpeak, onScanComplete }: CropDoctorProps) {
   const [selectedSpecimen, setSelectedSpecimen] = useState<Specimen | null>(null);
   const [isScanning, setIsScanning] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<'camera' | 'upload'>('camera');
@@ -119,6 +120,7 @@ export default function CropDoctor({ onSpeak }: CropDoctorProps) {
           };
           setSelectedSpecimen(customSpecimen);
           onSpeak(customSpecimen.summary);
+          onScanComplete?.(customSpecimen.name, customSpecimen.treatmentOrganic);
         } else {
           // Fallback to sample
           handleSelectSample(SPECIMENS[0]);
@@ -201,7 +203,13 @@ export default function CropDoctor({ onSpeak }: CropDoctorProps) {
 
             {/* Dropzone Box */}
             <div
-              onClick={() => fileInputRef.current?.click() || handleSelectSample(SPECIMENS[0])}
+              onClick={() => {
+                if (fileInputRef.current) {
+                  fileInputRef.current.click();
+                } else {
+                  handleSelectSample(SPECIMENS[0]);
+                }
+              }}
               className="border-2 border-dashed border-slate-700/80 hover:border-emerald-500/70 rounded-xl p-6 flex flex-col items-center justify-center text-center cursor-pointer transition bg-slate-950/40 hover:bg-slate-950/80 group"
             >
               <div className="w-10 h-10 rounded-full bg-emerald-500/10 text-emerald-400 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">

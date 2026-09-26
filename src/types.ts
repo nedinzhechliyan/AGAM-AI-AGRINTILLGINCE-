@@ -1,5 +1,17 @@
 export type RiskLevel = 'low' | 'medium' | 'high';
 
+/** Node in the data-architecture pipeline visualization (DataArchitectureTab). */
+export interface ArchitectureNode {
+  id: string;
+  title: string;
+  category: string;
+  role: string;
+  inputs: string[];
+  outputs: string[];
+  latency: string;
+  samplePayload: Record<string, unknown>;
+}
+
 export interface AdvisoryRisk {
   irrigationNeeded: boolean;
   riskLevel: RiskLevel;
@@ -90,6 +102,48 @@ export interface CropDiseaseSample {
   remedyAction: string;
   culturalControl: string[];
   imageUrl: string;
+}
+
+/** Geospatial point (latitude / longitude pair). */
+export interface GeoPoint {
+  lat: number;
+  lon: number;
+}
+
+/** Mascot facial emotion states. */
+export type Emotion = 'neutral' | 'happy' | 'surprised' | 'thinking';
+
+/** Mascot framing mode: full body vs hip-level passport zoom. */
+export type MascotZoomMode = 'full' | 'passport';
+
+/**
+ * A farmer activity timeline record (Lane 4 — "My Farm History").
+ * Persisted to Firestore subcollection + localStorage cache.
+ */
+export interface FarmerActivity {
+  id: string;
+  type: 'profile_created' | 'profile_updated' | 'voice_query' | 'advisory' | 'disease_scan' | 'scheme_view' | 'land_selected';
+  title: string;
+  detail: string;
+  districtName?: string;
+  language?: string;
+  createdAt: string; // ISO timestamp
+  meta?: Record<string, unknown>;
+}
+
+/**
+ * Regenerative crop recommendation (Lane 1) derived from live NASA satellite
+ * telemetry + agronomic suitability rules — zero LLM hallucination.
+ */
+export interface RegenerativeRecommendation {
+  cropId: string;
+  cropName: string;
+  localName: string;
+  suitabilityScore: number; // 0-100
+  regenerativeRole: string; // nitrogen fixation, soil cover, deep rooting...
+  reason: string; // grounded in actual telemetry values
+  waterNeedMmPerDay: number;
+  companionCrop?: string;
 }
 
 export interface SchemeItem {

@@ -55,7 +55,7 @@ export function VoiceAgentBar({
         recog.continuous = false;
         recog.interimResults = true;
 
-        const langLocaleMap: Record<LanguageCode, string> = {
+        const langLocaleMap: Record<LanguageCode | 'ml' | 'pa' | 'bn', string> = {
           ta: 'ta-IN',
           en: 'en-IN',
           hi: 'hi-IN',

@@ -123,7 +123,9 @@ const RAG_CONTEXT_STRING = pmKisanKnowledgeBase
 
 async function startServer() {
   const app = express();
-  const PORT = process.env.PORT || 3000;
+  // Guard: empty/invalid PORT env (e.g. "PORT=") must fall back to 3000, not port 0
+  const parsedPort = Number(process.env.PORT);
+  const PORT = Number.isFinite(parsedPort) && parsedPort > 0 ? parsedPort : 3000;
 
   // Support large base64 image uploads for foliar scanning
   app.use(express.json({ limit: '25mb' }));
@@ -156,7 +158,7 @@ async function startServer() {
   app.post('/api/rag-chat', async (req, res) => {
     try {
       const queryText = req.body.query || req.body.message;
-      const { preferredLanguage, district, crop, acres } = req.body;
+      const { preferredLanguage, district, crop, acres, telemetry } = req.body;
 
       if (!queryText || typeof queryText !== 'string') {
         return res.status(400).json({ error: 'Query or message string is required.' });
@@ -199,9 +201,11 @@ You MUST adhere strictly to the following 4 security and boundary rules:
 1. IN-SCOPE QUERIES (PM-Kisan & AGAM Features):
    - Use the VERIFIED RAG CONTEXT provided below.
    - Return valid JSON with:
-     - "spoken_response": 1-2 clear, encouraging sentences answering the query in the farmer's language (${preferredLanguage || 'English'}).
+     - "verdict": "YES" | "NO" — REQUIRED for any yes/no farming question ("should I irrigate today?", "can I spray now?", "am I eligible for PM-Kisan?"). "YES" if the action is safe/beneficial/applicable NOW, "NO" otherwise. For open questions omit verdict.
+     - "spoken_response": 1-2 clear, encouraging sentences answering the query in the farmer's language (${preferredLanguage || 'English'}). If verdict is present, spoken_response MUST START with a clear Yes or No in that language, THEN the reason (satellite numbers if available).
      - "intent_action": "REDIRECT_KISAN_PORTAL" | "NAVIGATE_DISEASE_SCANNER" | "NAVIGATE_LAND_SURVEY" | "NONE"
      - "portal_url": "https://pmkisan.gov.in" (if intent_action is REDIRECT_KISAN_PORTAL)
+     - "district_name": if the farmer asks about a DIFFERENT district's land/weather/satellite data, extract ONLY that district name here (e.g. "Thanjavur", "Ludhiana"). Otherwise omit it.
 
 2. OUTSIDE AGRICULTURE / NON-APP FEATURE QUERIES:
    - If the user asks general non-agricultural questions (e.g. coding, software development, movie reviews, pop culture, sports, general entertainment, or chit-chat unrelated to farming), YOU MUST STRICTLY RETURN EXACTLY:
@@ -223,6 +227,19 @@ ${RAG_CONTEXT_STRING}
 =========================================================
 
 Farmer Context: District: ${district || 'Tamil Nadu'}, Crop: ${crop || 'Paddy/Rice'}.
+${
+  telemetry && typeof telemetry === 'object'
+    ? `LIVE NASA POWER telemetry for ${district || 'the district'} (ground truth — ALWAYS cite these numbers when answering yes/no action questions like irrigation/spraying):
+- Root-zone soil moisture: ${telemetry.soilMoisture}%
+- Rainfall (7-day forecast): ${telemetry.rainForecast} mm/day
+- Temperature: ${telemetry.tempC}°C (min ${telemetry.tempMinC}°C / max ${telemetry.tempMaxC}°C)
+- Wind speed: ${telemetry.windSpeedKmh} km/h
+- Relative humidity: ${telemetry.humidity}%
+- Solar radiation: ${telemetry.solarRadiation} kWh/m²
+- System irrigation decision: ${telemetry.irrigationNeeded === true ? 'IRRIGATION NEEDED' : telemetry.irrigationNeeded === false ? 'NO IRRIGATION NEEDED' : 'undetermined'}
+`
+    : ''
+}
 Return ONLY valid JSON. No markdown backticks, no other text.`;
 
       let groqResponse;
@@ -234,7 +251,7 @@ Return ONLY valid JSON. No markdown backticks, no other text.`;
             { role: 'user', content: rawQuery },
           ],
           temperature: 0.0,
-          max_tokens: 300,
+          max_tokens: 500,
         });
       } catch (mErr) {
         groqResponse = await groq.chat.completions.create({
@@ -244,7 +261,7 @@ Return ONLY valid JSON. No markdown backticks, no other text.`;
             { role: 'user', content: rawQuery },
           ],
           temperature: 0.0,
-          max_tokens: 300,
+          max_tokens: 500,
         });
       }
 
@@ -257,11 +274,52 @@ Return ONLY valid JSON. No markdown backticks, no other text.`;
         parsedResult = jsonMatch ? JSON.parse(jsonMatch[0]) : { spoken_response: rawContent, intent_action: 'NONE' };
       }
 
+      // gpt-oss quirk guard: model sometimes double-encodes its whole JSON object
+      // as a string inside spoken_response (e.g. spoken_response: "{\"spoken_response\":...}").
+      // Unwrap it so intent_action / district_name are not lost — including when the
+      // inner JSON is TRUNCATED by max_tokens (parse the fields out with regex).
+      if (typeof parsedResult.spoken_response === 'string' && parsedResult.spoken_response.trim().startsWith('{')) {
+        const raw = parsedResult.spoken_response;
+        let unwrapped: any = null;
+        try {
+          const inner = JSON.parse(raw);
+          if (inner && typeof inner === 'object' && !Array.isArray(inner)) unwrapped = inner;
+        } catch {
+          /* truncated or malformed — salvage below */
+        }
+        if (!unwrapped) {
+          const grab = (key: string) => {
+            const m = raw.match(new RegExp(`"${key}"\\s*:\\s*"((?:\\\\.|[^"\\\\])*)"`));
+            if (!m) return undefined;
+            try { return JSON.parse(`"${m[1]}"`); } catch { return m[1]; }
+          };
+          const salvagedSpoken = grab('spoken_response');
+          if (salvagedSpoken) {
+            unwrapped = {
+              spoken_response: salvagedSpoken,
+              verdict: grab('verdict') || undefined,
+              intent_action: grab('intent_action') || 'NONE',
+              portal_url: grab('portal_url'),
+              district_name: grab('district_name'),
+            };
+          }
+        }
+        if (unwrapped) {
+          parsedResult = { ...parsedResult, ...unwrapped };
+        }
+      }
+
       // Ensure mandatory contract schema
+      const finalVerdict =
+        parsedResult.verdict === 'YES' || parsedResult.verdict === 'NO'
+          ? parsedResult.verdict
+          : undefined;
       const finalResponse = {
+        verdict: finalVerdict,
         spoken_response: parsedResult.spoken_response || 'Advisory received for your field.',
         intent_action: parsedResult.intent_action || 'NONE',
         portal_url: parsedResult.portal_url || (parsedResult.intent_action === 'REDIRECT_KISAN_PORTAL' ? 'https://pmkisan.gov.in' : undefined),
+        district_name: typeof parsedResult.district_name === 'string' ? parsedResult.district_name : undefined,
         source: parsedResult.source || 'RAG_GROQ_LPU',
       };
 

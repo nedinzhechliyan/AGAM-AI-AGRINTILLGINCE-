@@ -233,6 +233,19 @@ export async function fetchNasaPowerData(
   landSizeAcres: number = 2.5
 ): Promise<NasaPowerExtractedData> {
   const coords = DISTRICT_COORDINATES[districtId] || DISTRICT_COORDINATES.chengalpattu;
+  return fetchNasaPowerByCoords(districtId, coords.lat, coords.lon, landSizeAcres);
+}
+
+/**
+ * Live NASA POWER query for ARBITRARY coordinates — powers Lane 1 for ANY
+ * district on Earth resolved via OSM, not just the bundled registry.
+ */
+export async function fetchNasaPowerByCoords(
+  districtId: string,
+  lat: number,
+  lon: number,
+  landSizeAcres: number = 2.5
+): Promise<NasaPowerExtractedData> {
   const today = new Date();
   const sevenDaysAgo = new Date();
   sevenDaysAgo.setDate(today.getDate() - 7);
@@ -245,7 +258,7 @@ export async function fetchNasaPowerData(
     year: 'numeric',
   });
 
-  const apiUrl = `https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M,T2M_MIN,T2M_MAX,RH2M,PRECTOTCORR,GWETROOT,WS2M,ALLSKY_SFC_SW_DWN&community=AG&longitude=${coords.lon}&latitude=${coords.lat}&start=${startDate}&end=${endDate}&format=JSON`;
+  const apiUrl = `https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M,T2M_MIN,T2M_MAX,RH2M,PRECTOTCORR,GWETROOT,WS2M,ALLSKY_SFC_SW_DWN&community=AG&longitude=${lon}&latitude=${lat}&start=${startDate}&end=${endDate}&format=JSON`;
 
   try {
     const controller = new AbortController();
@@ -256,7 +269,7 @@ export async function fetchNasaPowerData(
       res = await fetch(apiUrl, { signal: controller.signal });
     } catch (directErr) {
       clearTimeout(timeoutId);
-      const proxyUrl = `/api/nasa-power?lat=${coords.lat}&lon=${coords.lon}&start=${startDate}&end=${endDate}`;
+      const proxyUrl = `/api/nasa-power?lat=${lat}&lon=${lon}&start=${startDate}&end=${endDate}`;
       res = await fetch(proxyUrl);
     } finally {
       clearTimeout(timeoutId);

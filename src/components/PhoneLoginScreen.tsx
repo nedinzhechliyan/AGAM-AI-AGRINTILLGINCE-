@@ -425,7 +425,7 @@ export function PhoneLoginScreen({
 
       clearTimeout(delayedNoticeTimer);
 
-      if (!raceResult.isTimeout) {
+      if (!raceResult.isTimeout && 'userCredential' in raceResult) {
         // 3. If confirm() resolves successfully before the timeout — proceed normally
         console.group('%c[Firebase Auth] confirmationResult.confirm SUCCEEDED', 'color: #1b4332; font-weight: bold;');
         console.log('Verified User UID:', raceResult.userCredential.user.uid);

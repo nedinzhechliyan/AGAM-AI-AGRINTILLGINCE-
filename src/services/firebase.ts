@@ -240,6 +240,41 @@ export const saveFarmerLandProfile = (farmerId: string, data: any) =>
 export const logDiseaseScanToFirestore = (farmerId: string, scan: any) =>
   appendDiseaseScanToProfile(farmerId, scan);
 
+// ============================================================================
+// LANE 4 — Farm History Activity Subcollection (`farmer_profile/{id}/activities`)
+// ============================================================================
+export async function addActivityDoc(farmerId: string, activity: {
+  id: string;
+  type: string;
+  title: string;
+  detail: string;
+  districtName?: string;
+  language?: string;
+  createdAt: string;
+  meta?: Record<string, unknown>;
+}) {
+  const actsRef = collection(db, 'farmer_profile', farmerId, 'activities');
+  await addDoc(actsRef, activity);
+}
+
+export async function fetchActivityDocs(farmerId: string): Promise<
+  Array<{
+    id: string;
+    type: string;
+    title: string;
+    detail: string;
+    districtName?: string;
+    language?: string;
+    createdAt: string;
+    meta?: Record<string, unknown>;
+  }>
+> {
+  const actsRef = collection(db, 'farmer_profile', farmerId, 'activities');
+  const q = query(actsRef, orderBy('createdAt', 'desc'), limit(100));
+  const snap = await getDocs(q);
+  return snap.docs.map((d) => ({ ...(d.data() as any), id: d.id }));
+}
+
 export default app;
 
 
