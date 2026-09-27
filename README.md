@@ -1,3 +1,80 @@
+## Key Features
+
+- Voice-First & Multilingual Interaction: Farmers can ask questions in local languages via speech input and receive immediate, natural audio responses.
+- Multimodal Crop Disease Detection: Upload or capture leaf photos to instantly diagnose crop diseases, nutrient deficiencies, or pest infestations with actionable treatment steps.
+- Hyper-Local Weather & Irrigation Alerts: Integrates localized meteorological and satellite telemetry to recommend optimal sowing, irrigation, and harvesting timing.
+- Soil & Crop Recommendation Engine: Analyzes local soil profiles and market demand to suggest high-yield, resilient crop varieties.
+
+---
+
+## Architecture & Tech Stack
+
+[ Farmer Client ] (Flutter / Firebase Web App)
+│
+├─► [ Speech Input ] ──► Google Cloud Speech-to-Text
+│
+├─► [ Crop Photo ]   ──► Vertex AI / Gemini Multimodal API (Disease Diagnostics)
+│
+└─► [ Text Query ]   ──► Gemini API + RAG (Local Agri Extension Knowledge Base)
+│
+▼
+[ Google Cloud Run Backend ]
+│
+▼
+[ Google Cloud Translation & TTS ]
+│
+▼
+[ Audio & Visual Response ]
+
+
+| Layer | Component / Technology |
+| :--- | :--- |
+| Generative AI & LLM | Google Gemini 1.5 Pro / Flash via Google AI Studio |
+| Computer Vision | Vertex AI & Gemini Vision API |
+| Speech & Translation | Cloud Speech-to-Text, Cloud Text-to-Speech, Cloud Translation API |
+| Backend & Cloud | Google Cloud Run, Firebase Firestore, Python (FastAPI) |
+| Frontend | Flutter / Firebase Web App |
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- Python 3.10+
+- Google Cloud SDK CLI installed and initialized
+- Google Gemini API Key (obtain from Google AI Studio)
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone [https://github.com/nedinzhechliyan/AGAM-AI-AGRINTILLGINCE-.git](https://github.com/nedinzhechliyan/AGAM-AI-AGRINTILLGINCE-.git)
+   cd AGAM-AI-AGRINTILLGINCE-
+Set up virtual environment & dependencies:
+
+Bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+pip install -r requirements.txt
+Configure Environment Variables:
+Create a .env file in the root directory:
+
+Code snippet
+GEMINI_API_KEY=your_gemini_api_key_here
+GCP_PROJECT_ID=your_gcp_project_id
+GOOGLE_APPLICATION_CREDENTIALS=path/to/service_account.json
+Run the local development server:
+
+Bash
+python main.py
+
+
+
+
+
+
+
 # Sound Kit
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
