@@ -30,7 +30,7 @@
 | Layer | Component / Technology |
 | :--- | :--- |
 | Generative AI & LLM | Google Gemini 1.5 Pro / Flash via Google AI Studio |
-| Computer Vision | Vertex AI & Gemini Vision API |groq api
+| Computer Vision | Vertex AI & Gemini Vision API groq API |
 | Speech & Translation | Cloud Speech-to-Text, Cloud Text-to-Speech, Cloud Translation API |
 | Backend & Cloud | Google Cloud Run, Firebase Firestore, Python (FastAPI) |
 | Frontend | Flutter / Firebase Web App |
